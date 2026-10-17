@@ -1,0 +1,111 @@
+# 应用服务容器化编排（配合 docker-compose.yml 一起启动中间件）。
+# 启动：docker compose -f docker-compose.yml -f docker-compose.app.yml up -d --build
+#
+# 说明：容器内通过服务名访问中间件，用环境变量覆盖本地 127.0.0.1 配置
+# （Spring Boot 宽松绑定：SPRING_DATASOURCE_URL -> spring.datasource.url 等）。
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_MODULE: linxian-gateway
+    container_name: linxian-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - nacos
+    environment:
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: nacos:8848
+
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_MODULE: linxian-user-service
+    container_name: linxian-user-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/linxian_user?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: nacos:8848
+
+  leader-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_MODULE: linxian-leader-service
+    container_name: linxian-leader-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/linxian_leader?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: nacos:8848
+
+  inventory-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_MODULE: linxian-inventory-service
+    container_name: linxian-inventory-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/linxian_inventory?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: nacos:8848
+
+  order-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_MODULE: linxian-order-service
+    container_name: linxian-order-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/linxian_order?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: nacos:8848
+
+  fulfillment-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_MODULE: linxian-fulfillment-service
+    container_name: linxian-fulfillment-service
+    depends_on:
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      nacos:
+        condition: service_started
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/linxian_fulfillment?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_CLOUD_NACOS_DISCOVERY_SERVER_ADDR: nacos:8848
+      ELASTICSEARCH_HOST: elasticsearch
