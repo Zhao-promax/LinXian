@@ -1,5 +1,6 @@
 package com.cirida.zhao.linxian.order.service;
 
+import com.cirida.zhao.linxian.api.order.dto.OrderFulfillmentDTO;
 import com.cirida.zhao.linxian.order.dto.CreateOrderRequest;
 import com.cirida.zhao.linxian.order.dto.OrderVO;
 
@@ -14,6 +15,8 @@ public interface OrderService {
     void pickup(Long userId, String orderNo);
 
     OrderVO getOrder(Long userId, String orderNo);
+
+    OrderFulfillmentDTO getOrderFulfillment(String orderNo);
 
     void startSort(String orderNo);
 

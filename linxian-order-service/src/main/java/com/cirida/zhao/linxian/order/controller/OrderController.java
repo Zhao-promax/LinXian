@@ -1,5 +1,6 @@
 package com.cirida.zhao.linxian.order.controller;
 
+import com.cirida.zhao.linxian.api.order.dto.OrderFulfillmentDTO;
 import com.cirida.zhao.linxian.common.constant.Constants;
 import com.cirida.zhao.linxian.common.exception.BizException;
 import com.cirida.zhao.linxian.common.result.ErrorCode;
@@ -58,6 +59,11 @@ public class OrderController {
     public Result<OrderVO> detail(@RequestHeader(value = Constants.HEADER_USER_ID, required = false) Long userId,
                                   @PathVariable String orderNo) {
         return Result.ok(orderService.getOrder(requireUser(userId), orderNo));
+    }
+
+    @GetMapping("/internal/{orderNo}/fulfillment")
+    public Result<OrderFulfillmentDTO> getOrderFulfillment(@PathVariable String orderNo) {
+        return Result.ok(orderService.getOrderFulfillment(orderNo));
     }
 
     @PostMapping("/internal/{orderNo}/start-sort")

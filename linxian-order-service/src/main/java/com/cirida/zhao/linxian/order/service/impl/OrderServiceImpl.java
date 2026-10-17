@@ -6,6 +6,7 @@ import com.cirida.zhao.linxian.api.inventory.dto.PreDeductRequest;
 import com.cirida.zhao.linxian.api.inventory.dto.StockOperateRequest;
 import com.cirida.zhao.linxian.api.leader.LeaderClient;
 import com.cirida.zhao.linxian.api.leader.dto.PickupPointDTO;
+import com.cirida.zhao.linxian.api.order.dto.OrderFulfillmentDTO;
 import com.cirida.zhao.linxian.common.enums.OrderEvent;
 import com.cirida.zhao.linxian.common.enums.OrderStatus;
 import com.cirida.zhao.linxian.common.exception.BizException;
@@ -159,6 +160,29 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItem> items = orderItemMapper.selectList(
                 new LambdaQueryWrapper<OrderItem>().eq(OrderItem::getOrderId, order.getId()));
         return toVO(order, items);
+    }
+
+    @Override
+    public OrderFulfillmentDTO getOrderFulfillment(String orderNo) {
+        Order order = getByOrderNo(orderNo);
+        if (order == null) {
+            throw new BizException(ErrorCode.ORDER_NOT_FOUND);
+        }
+        List<OrderItem> items = orderItemMapper.selectList(
+                new LambdaQueryWrapper<OrderItem>().eq(OrderItem::getOrderId, order.getId()));
+        OrderFulfillmentDTO dto = new OrderFulfillmentDTO();
+        dto.setOrderId(order.getId());
+        dto.setOrderNo(order.getOrderNo());
+        dto.setPickupPointId(order.getPickupPointId());
+        dto.setLeaderId(order.getLeaderId());
+        dto.setItems(items.stream().map(i -> {
+            OrderFulfillmentDTO.Item item = new OrderFulfillmentDTO.Item();
+            item.setSkuId(i.getSkuId());
+            item.setProductName(i.getProductName());
+            item.setQuantity(i.getQuantity());
+            return item;
+        }).toList());
+        return dto;
     }
 
     @Override

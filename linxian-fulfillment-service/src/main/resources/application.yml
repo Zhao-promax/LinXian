@@ -44,3 +44,9 @@ sort:
     max-size: 16
     queue-capacity: 200
     keep-alive-seconds: 60
+  item-millis: 800   # 单件分拣模拟耗时（串行 4 件 3.2s -> 并发 0.8s）
+  fail-rate: 0.0     # 分拣失败率（演示异常补偿/ES 检索时可调为 0.1）
+
+# 履约异常定时补偿间隔（毫秒）
+fulfillment:
+  compensate-interval-ms: 30000
