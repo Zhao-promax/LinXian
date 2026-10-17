@@ -1,0 +1,39 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: linxian-order-service
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/linxian_order?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: linxian123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    # 生产者确认，配合本地消息/补偿保证最终一致
+    publisher-confirm-type: correlated
+    publisher-returns: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+# 订单超时未支付自动取消（毫秒），与延迟队列 TTL 保持一致
+order:
+  timeout-millis: 900000

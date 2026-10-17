@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.cirida.zhao</groupId>
+        <artifactId>linxian</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>linxian-common</artifactId>
+    <name>linxian-common</name>
+    <description>统一返回、异常、公共实体、业务枚举与常量</description>
+
+    <dependencies>
+        <!-- 仅引入 spring-web（提供 @RestControllerAdvice 等注解），不引入 servlet 容器，
+             保证 Gateway(WebFlux) 与各 MVC 服务都能安全依赖本模块 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <!-- spring-context：提供 org.springframework.validation 包下的 FieldError/BindException 等 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+        <!-- 使用 starter 而非 annotation 单包：@TableField 等注解默认值引用了 mybatis 的 JdbcType，
+             mybatis-plus-annotation 把 mybatis 标记为 optional，需 starter 传递引入 mybatis 核心包 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+        </dependency>
+        <!-- JWT 工具（jjwt-gson 序列化，避开 Jackson 2 与 Boot 4 的 Jackson 3 冲突） -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-gson</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+</project>

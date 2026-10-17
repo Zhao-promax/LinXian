@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.cirida.zhao</groupId>
+        <artifactId>linxian</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>linxian-api</artifactId>
+    <name>linxian-api</name>
+    <description>服务间 Feign 调用接口与共享 DTO</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.cirida.zhao</groupId>
+            <artifactId>linxian-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 仅依赖 openfeign-core 提供 @FeignClient 注解，避免在库模块引入自动配置 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

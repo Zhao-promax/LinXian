@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: linxian-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://linxian-user-service
+          predicates:
+            - Path=/user/**
+        - id: leader-service
+          uri: lb://linxian-leader-service
+          predicates:
+            - Path=/leader/**
+        - id: inventory-service
+          uri: lb://linxian-inventory-service
+          predicates:
+            - Path=/inventory/**
+        - id: order-service
+          uri: lb://linxian-order-service
+          predicates:
+            - Path=/order/**
+        - id: fulfillment-service
+          uri: lb://linxian-fulfillment-service
+          predicates:
+            - Path=/fulfillment/**
+
+# JWT 校验密钥（与 user-service 保持一致，生产环境通过环境变量注入）
+jwt:
+  secret: linxian2026JwtSecretKeyForHmacSha256SigningPleaseChange!
