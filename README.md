@@ -64,7 +64,7 @@ linxian/
 ├── docker-compose.app.yml     # 应用服务容器化编排
 ├── Dockerfile                 # 通用多阶段构建（ARG SERVICE_MODULE）
 ├── jmeter/                    # 压测脚本
-└── docs/                      # 架构、演示手册、面试问答、压测报告
+└── docs/                      # 架构、演示手册、压测报告
 ```
 
 ## 快速启动
@@ -175,5 +175,4 @@ jmeter -n -t jmeter/order-create.jmx -l result.jtl -e -o report
 
 - [架构与设计说明](docs/architecture.md)
 - [演示手册](docs/demo-guide.md)
-- [面试问答要点](docs/interview-qa.md)
 - [压测报告](docs/stress-test-report.md)

@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# 个人面试准备笔记（仅保留本地，不推送）
+docs/interview-qa.md
