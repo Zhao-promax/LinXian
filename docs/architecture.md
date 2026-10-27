@@ -36,7 +36,7 @@ PENDING_PAYMENT ──PAY──▶ PAID ──SORT──▶ SORTING ──SORT_D
 
 - 状态 × 事件 → 目标状态的转移表写在 `OrderStateMachine`（`EnumMap`），非法转移抛 `ORDER_STATUS_ERROR`。
 - 状态落库用 CAS 条件更新 `WHERE status = 当前状态`，防止并发重复流转。
-- 选**手写 enum 状态机**而非 Spring StateMachine：状态少（6 个）、转移明确，手写更直观、依赖更少、面试更好讲「为什么这样设计」。
+- 选**手写 enum 状态机**而非 Spring StateMachine：状态少（6 个）、转移明确，手写更直观、依赖更少、易于理解和维护。
 
 ## 4. 库存预扣链路（防超卖）
 

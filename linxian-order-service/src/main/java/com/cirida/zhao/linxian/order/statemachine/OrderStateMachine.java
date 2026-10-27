@@ -10,7 +10,7 @@ import java.util.Map;
 
 /**
  * 手写订单状态机：状态 × 事件 → 目标状态，非法转移抛业务异常。
- * <p>相比引入 Spring StateMachine，转移表更直观、易讲清设计，也便于面试解释。</p>
+ * <p>相比引入 Spring StateMachine，转移表更直观、依赖更少、易于理解和维护。</p>
  */
 public final class OrderStateMachine {
 
