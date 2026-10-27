@@ -96,7 +96,7 @@ curl -s "http://localhost:8080/fulfillment/exception/search?from=0&to=9999999999
 ## 6. 压测
 
 ```bash
-docker exec -i linxian-mysql mysql -uroot -plinxian123 \
+docker exec -i linxian-mysql mysql -uroot -p"$MYSQL_ROOT_PASSWORD" \
   -e "UPDATE linxian_inventory.stock SET available=1000000 WHERE sku_id=1;"
 jmeter -n -t jmeter/inventory-pre-deduct.jmx -l result.jtl -e -o report
 ```

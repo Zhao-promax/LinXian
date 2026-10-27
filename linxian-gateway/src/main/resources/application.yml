@@ -31,6 +31,6 @@ spring:
           predicates:
             - Path=/fulfillment/**
 
-# JWT 校验密钥（与 user-service 保持一致，生产环境通过环境变量注入）
+# JWT 校验密钥（与 user-service 保持一致，通过环境变量 JWT_SECRET 注入）
 jwt:
-  secret: linxian2026JwtSecretKeyForHmacSha256SigningPleaseChange!
+  secret: ${JWT_SECRET}

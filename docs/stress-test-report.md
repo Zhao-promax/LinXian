@@ -23,7 +23,7 @@
 
 ```bash
 # 调大库存，避免打空影响成功率
-docker exec -i linxian-mysql mysql -uroot -plinxian123 \
+docker exec -i linxian-mysql mysql -uroot -p"$MYSQL_ROOT_PASSWORD" \
   -e "UPDATE linxian_inventory.stock SET available=1000000 WHERE sku_id=1;"
 
 # 库存预扣：1000 线程，10s 爬坡，1 轮

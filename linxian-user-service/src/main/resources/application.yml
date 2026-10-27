@@ -7,7 +7,7 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/linxian_user?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: linxian123
+    password: ${MYSQL_ROOT_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
     nacos:
@@ -27,6 +27,6 @@ mybatis-plus:
 
 # JWT 签发配置
 jwt:
-  secret: linxian2026JwtSecretKeyForHmacSha256SigningPleaseChange!
+  secret: ${JWT_SECRET}
   # 有效期：24 小时（毫秒）
   ttl: 86400000

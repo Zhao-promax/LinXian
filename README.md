@@ -69,13 +69,25 @@ linxian/
 
 ## 快速启动
 
+### 0. 配置密钥（环境变量）
+
+仓库里不存放任何密码，改用环境变量注入。先准备 `.env`：
+
+```bash
+cp .env.example .env
+# 编辑 .env，填入你自己的 MYSQL_ROOT_PASSWORD / RABBITMQ_DEFAULT_PASS / JWT_SECRET
+```
+
+- `docker compose up` 会自动读取同目录下的 `.env`。
+- 用 IDE / `mvn spring-boot:run` 跑服务时，把 `.env` 里这几个变量设置到运行环境（IDEA 在 Run Configuration 里加环境变量；命令行可 `set -a; . ./.env; set +a` 后运行）。
+
 ### 1. 启动中间件
 
 ```bash
 docker compose up -d
 ```
 
-首次启动 MySQL 会自动执行 `sql/` 下的建库建表与演示数据脚本。默认账号：MySQL `root/linxian123`，RabbitMQ `guest/guest`，Redis/Nacos/ES 无密码。
+首次启动 MySQL 会自动执行 `sql/` 下的建库建表与演示数据脚本。Redis/Nacos/ES 无密码；MySQL、RabbitMQ 的账号密码由你的 `.env` 决定。
 
 ### 2. 启动服务（二选一）
 
@@ -159,7 +171,7 @@ curl -s "http://localhost:8080/fulfillment/exception/search?leaderId=1&skuId=1"
 
 ```bash
 # 压测前调大库存，避免打空
-docker exec -i linxian-mysql mysql -uroot -plinxian123 \
+docker exec -i linxian-mysql mysql -uroot -p"$MYSQL_ROOT_PASSWORD" \
   -e "UPDATE linxian_inventory.stock SET available=1000000 WHERE sku_id=1;"
 
 # 库存预扣（直连 8083，绕网关）

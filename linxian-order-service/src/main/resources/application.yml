@@ -7,13 +7,13 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/linxian_order?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: linxian123
+    password: ${MYSQL_ROOT_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   rabbitmq:
     host: 127.0.0.1
     port: 5672
     username: guest
-    password: guest
+    password: ${RABBITMQ_DEFAULT_PASS}
     virtual-host: /
     # 生产者确认，配合本地消息/补偿保证最终一致
     publisher-confirm-type: correlated
